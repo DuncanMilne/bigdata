@@ -1,0 +1,5 @@
+cd bigdata/src
+export HADOOP_CLASSPATH=/users/level4/2087186m/bigdata/out/artifacts/bigdata_jar/bigdata.jar
+javac-run.sh $(find . -name '*.java')
+jar -cvf ../out/artifacts/bigdata_jar/bigdata.jar $(find . -name '*.class')
+java-run.sh Main 2013-09-12T13:45:00Z 2013-09-13T09:18:52Z

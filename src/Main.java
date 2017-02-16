@@ -13,9 +13,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-// #TODO REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-// #TODO current task - figure out how to see file after
-// #TODO REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
 public class Main extends Configured implements Tool {
 
 
@@ -37,16 +35,22 @@ public class Main extends Configured implements Tool {
 
         job.setInputFormatClass(myInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+
         job.setMapperClass(myMapper.class);
+
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
+
         job.setReducerClass(myReducer.class);
         job.setCombinerClass(myReducer.class);
+
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-sample.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/4"));
+        job.setNumReduceTasks(1);
+
+        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-largersample.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/15"));
 
         job.submit();
         return (job.waitForCompletion(true) ? 0 : 1);

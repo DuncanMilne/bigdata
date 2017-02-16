@@ -15,7 +15,6 @@ import java.util.Date;
  */
 public class myMapper extends org.apache.hadoop.mapreduce.Mapper<LongWritable, Text, Text, IntWritable> {
 
-    static enum Counters{ NUM_OCCURENCES }
     private Text _key = new Text();
     private IntWritable _value = new IntWritable();
 
@@ -28,11 +27,10 @@ public class myMapper extends org.apache.hadoop.mapreduce.Mapper<LongWritable, T
         try {
             Date endDate = df.parse(context.getConfiguration().get("enddate"));
             Date startDate = df.parse(context.getConfiguration().get("startdate"));
-            if (df.parse(record[0]).compareTo(startDate) > 0 && df.parse(record[0]).compareTo(endDate) < 0) {
+            if (df.parse(record[4]).compareTo(startDate) > 0 && df.parse(record[4]).compareTo(endDate) < 0) {
                 _key.set(record[1]);
                 _value.set(1);
                 context.write(_key,_value);
-                context.getCounter(Counters.NUM_OCCURENCES).increment(1);
             }
         } catch (ParseException e) {
             e.printStackTrace();
