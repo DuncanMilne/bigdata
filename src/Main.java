@@ -29,6 +29,7 @@ public class Main extends Configured implements Tool {
 
         conf.set("startdate", args[0]);
         conf.set("enddate", args[1]);
+        conf.set("N", args[2]);
 
         Job job = Job.getInstance(conf);
         job.setJarByClass(Main.class);
@@ -41,7 +42,7 @@ public class Main extends Configured implements Tool {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        job.setReducerClass(myReducer.class);
+        job.setReducerClass(myCombiner.class);
         job.setCombinerClass(myReducer.class);
 
         job.setOutputKeyClass(Text.class);
@@ -49,8 +50,8 @@ public class Main extends Configured implements Tool {
 
         job.setNumReduceTasks(1);
 
-        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-largersample.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/15"));
+        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-sample.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/31"));
 
         job.submit();
         return (job.waitForCompletion(true) ? 0 : 1);

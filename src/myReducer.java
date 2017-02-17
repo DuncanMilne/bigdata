@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 
 public class myReducer extends org.apache.hadoop.mapreduce.Reducer<Text, IntWritable, Text, IntWritable> {
 
-    private static int N = 10;
+    private static int N;
     private IntWritable _value = new IntWritable();
     static myComparator myComparator = new myComparator();
     private static PriorityQueue<SimpleEntry<String, Integer>> prioQ = new PriorityQueue<SimpleEntry<String, Integer>>(10, myComparator);
@@ -22,6 +22,8 @@ public class myReducer extends org.apache.hadoop.mapreduce.Reducer<Text, IntWrit
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 
         int sum = 0;
+
+        N = Integer.parseInt(context.getConfiguration().get("N"));
 
         for (IntWritable value:values)
             sum+= value.get();
@@ -37,21 +39,23 @@ public class myReducer extends org.apache.hadoop.mapreduce.Reducer<Text, IntWrit
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
 
-        IntWritable values[] = new IntWritable[N];
+        int size = prioQ.size();
 
-        Text text[] =  new Text[N];
+        System.out.println("size is " + size);
+        IntWritable values[] = new IntWritable[size];
 
-        for (int i = 0; i < N; i++) {
+        Text text[] =  new Text[size];
+
+        for (int i = 0; i < size; i++) {
 
             SimpleEntry<String, Integer> entry = prioQ.poll();
 
-            text[N-i-1] = new Text(entry.getKey());
+            text[size-i-1] = new Text(entry.getKey());
 
-            values[N-i-1] = new IntWritable(entry.getValue());
-
+            values[size-i-1] = new IntWritable(entry.getValue());
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < size; i++) {
             context.write(text[i], values[i]);
         }
 
