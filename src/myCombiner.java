@@ -17,5 +17,5 @@ public class myCombiner extends org.apache.hadoop.mapreduce.Reducer<Text, IntWri
             sum+= value.get();
 
         context.write(key, new IntWritable(sum));
-    }
+    }   // sums up number of revisions for each article ID
 }

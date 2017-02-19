@@ -2,6 +2,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.LineRecordReader;
 
 import java.io.IOException;
 
@@ -10,8 +11,13 @@ import java.io.IOException;
  */
 public class myInputFormat extends FileInputFormat<LongWritable,Text> {
 
+
     @Override
     public RecordReader<LongWritable, Text> createRecordReader(InputSplit inputSplit, TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException {
-        return new recordReader();
+
+        RecordReader recordReader = new LineRecordReader("\n\n".getBytes());
+
+        return recordReader;
+
     }
 }

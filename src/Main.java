@@ -42,16 +42,16 @@ public class Main extends Configured implements Tool {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        job.setReducerClass(myCombiner.class);
-        job.setCombinerClass(myReducer.class);
+        job.setReducerClass(myReducer.class);
+        job.setCombinerClass(myCombiner.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
         job.setNumReduceTasks(1);
 
-        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-sample.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/31"));
+        FileInputFormat.addInputPath(job, new Path("hdfs://dsenode0.dcs.gla.ac.uk:8020/user/bd4-ae1/enwiki-20080103-perftest.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("/user/2087186m/bigdata/45"));
 
         job.submit();
         return (job.waitForCompletion(true) ? 0 : 1);

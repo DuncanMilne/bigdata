@@ -1,4 +1,3 @@
-import com.kenai.constantine.platform.PRIO;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import java.io.IOException;
@@ -33,7 +32,6 @@ public class myReducer extends org.apache.hadoop.mapreduce.Reducer<Text, IntWrit
         if (prioQ.size() > N) {
             prioQ.poll();
         }
-
     }
 
     @Override
@@ -41,7 +39,6 @@ public class myReducer extends org.apache.hadoop.mapreduce.Reducer<Text, IntWrit
 
         int size = prioQ.size();
 
-        System.out.println("size is " + size);
         IntWritable values[] = new IntWritable[size];
 
         Text text[] =  new Text[size];
